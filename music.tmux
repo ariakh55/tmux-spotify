@@ -7,22 +7,26 @@ artist="#($CURRENT_DIR/scripts/artist.sh)"
 album="#($CURRENT_DIR/scripts/album.sh)"
 track="#($CURRENT_DIR/scripts/track.sh)"
 music_status="#($CURRENT_DIR/scripts/status.sh)"
+music_custom="#($CURRENT_DIR/scripts/custom.sh)"
 
 artist_interpolation="\#{artist}"
 album_interpolation="\#{album}"
 track_interpolation="\#{track}"
 status_interpolation="\#{music_status}"
+custom_interpolation="\#{music_custom}"
 
 #Backwards compatibility
 spotify_artist=artist
 spotify_album=album
 spotify_track=track
 spotify_status=music_status
+spotify_custom=music_custom
 
 spotify_artist_interpolation=artist_interpolation
 spotify_album_interpolation=album_interpolation
 spotify_track_interpolation=track_interpolation
 spotify_status_interpolation=status_interpolation
+spotify_custom_interpolation=custom_interpolation
 
 do_interpolation() {
   local output="$1"
@@ -30,6 +34,7 @@ do_interpolation() {
   local output="${output/$album_interpolation/$album}"
   local output="${output/$track_interpolation/$track}"
   local output="${output/$status_interpolation/$music_status}"
+  local output="${output/$custom_interpolation/$music_custom}"
   echo "$output"
 }
 

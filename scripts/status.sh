@@ -10,29 +10,15 @@ stopped_icon=""
 playing_default="▶︎"
 paused_default="■"
 
-music_status() {
-read -r -d '' SCRIPT <<END
-set theApp to "$APP"
-
-if application theApp is running then
-  tell application "$APP"
-    return player state as string
-  end tell
-end if
-END
-
-osascript -e "${SCRIPT}"
-}
-
 print_music_status() {
   local status=$(music_status)
 
-  if [[ "$status" == "playing" ]]; then
+  if [[ "$status" == "Playing" ]]; then
     echo "${playing_icon}"
-  elif [[ "$status" == "paused" ]]; then
-    echo "${paused_icon}"
+  elif [[ "$status" == "Paused" ]]; then
+      echo "${paused_icon}"
   else
-    echo "${stopped_icon:-$paused_icon}"
+      echo "${stopped_icon:-$paused_icon}"
   fi
 }
 

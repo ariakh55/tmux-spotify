@@ -1,4 +1,4 @@
-APP=${MUSIC_APP:-"Spotify"}
+APP=${MUSIC_APP:-"spotify"}
 get_tmux_option() {
   local option=$1
   local default_value=$2
@@ -18,15 +18,10 @@ set_tmux_option() {
 
 current_track_property() {
   local prop="${1}"
-read -r -d '' SCRIPT <<END
-set theApp to "$APP"
+  local lines=$2
+  echo "$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player string:Metadata | grep -A ${lines} "${prop}" | tail -n 1 | cut -d '"' -f 2)"
+}
 
-if application theApp is running then
-  tell application "$APP"
-    return %s of current track as string
-  end tell
-end if
-END
-
-osascript -e "$(printf "${SCRIPT}" "$prop")"
+music_status() {
+    echo "$(playerctl status -p "$APP")"
 }
